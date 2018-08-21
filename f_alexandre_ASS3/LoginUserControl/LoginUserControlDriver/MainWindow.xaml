@@ -1,0 +1,19 @@
+﻿<Window xmlns:LoginUserControl="clr-namespace:LoginUserControl;assembly=LoginUserControl"  x:Class="LoginUserControlDriver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LoginUserControlDriver"
+        mc:Ignorable="d"
+        Title="Demo User Crendentials Entry" Height="250" Width="500">
+    <Grid Margin="0,-4,0,4">
+        <LoginUserControl:LoginUserControl 
+            x:Name="UserCredentialsControl"
+            DataContext="{Binding RelativeSource={RelativeSource Self}}"            
+            HorizontalAlignment="Left" Margin="94,44,0,0" VerticalAlignment="Top" Width="254"/>
+
+        <Button x:Name="btnCheckCredentials" Content="Check Credentials" HorizontalAlignment="Left" Margin="308,129,0,0" VerticalAlignment="Top" Width="114" Height="21" Click="btnCheckCredentials_Click"/>
+        <TextBlock x:Name="tbUserName" HorizontalAlignment="Left" Margin="94,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="328"/>
+
+    </Grid>
+</Window>

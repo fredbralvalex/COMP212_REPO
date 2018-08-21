@@ -340,9 +340,9 @@ ASALocalRun/
 300974435(Alexandre)_ASS4.zip
 
 **/BaseUserCredentials
-**/BaseballLibrary
-**/BookSolution
-**/Calculator
+/BaseballLibrary
+/BookSolution
+/Calculator
 **/CarRentObserver
 
 CarRentObserver.zip
@@ -355,10 +355,10 @@ CarRentObserver.zip
 **/DemoUserDefinedControl - Copia
 
 Frederico-Alexandre_Lab06_Sec-002.zip
-**/LoginUserControl
+/LoginUserControl
 **/MidTerm
 **/MyFirstWPFApp
-**/RestaurantBillCalculator
+/RestaurantBillCalculator
 
 dir.txt
 **/temp
