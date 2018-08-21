@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fname" Type="varchar" MaxLength="50" />
+          <Property Name="lname" Type="varchar" MaxLength="50" />
+          <Property Name="department" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="inventory" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'E:\PROJETOS\ACADEMICO\CENTENNIAL\COMP212_VISUALBASIC2017\SOURCE\REPOS\MIDTERM\SALELIBRARY\SALELIBRARY\PMS.MDF.dbo.sale' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="product_code" />
+            <PropertyRef Name="quantity" />
+            <PropertyRef Name="saleDate" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="product_code" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="saleDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_sale_emploee">
+          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sale_product">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="code" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="product_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PMSModelStoreContainer">
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sale" EntityType="Self.sale" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [sale].[id] AS [id], 
+    [sale].[product_code] AS [product_code], 
+    [sale].[quantity] AS [quantity], 
+    [sale].[saleDate] AS [saleDate]
+    FROM [dbo].[sale] AS [sale]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_sale_emploee" Association="Self.fk_sale_emploee">
+            <End Role="employee" EntitySet="employee" />
+            <End Role="sale" EntitySet="sale" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sale_product" Association="Self.fk_sale_product">
+            <End Role="product" EntitySet="product" />
+            <End Role="sale" EntitySet="sale" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="department" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="sales" Relationship="Self.fk_sale_emploee" FromRole="employee" ToRole="sale" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inventory" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="sales" Relationship="Self.fk_sale_product" FromRole="product" ToRole="sale" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="product_code" />
+            <PropertyRef Name="quantity" />
+            <PropertyRef Name="saleDate" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="product_code" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="saleDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="employee" Relationship="Self.fk_sale_emploee" FromRole="sale" ToRole="employee" />
+          <NavigationProperty Name="product" Relationship="Self.fk_sale_product" FromRole="sale" ToRole="product" />
+        </EntityType>
+        <Association Name="fk_sale_emploee">
+          <End Role="employee" Type="Self.employee" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sale_product">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="code" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="product_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="sales" EntityType="Self.sale" />
+          <AssociationSet Name="fk_sale_emploee" Association="Self.fk_sale_emploee">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="sale" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sale_product" Association="Self.fk_sale_product">
+            <End Role="product" EntitySet="products" />
+            <End Role="sale" EntitySet="sales" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PMSModelStoreContainer" CdmEntityContainer="PMSEntities">
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="PMSModel.employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="department" ColumnName="department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="PMSModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="inventory" ColumnName="inventory" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sales">
+            <EntityTypeMapping TypeName="PMSModel.sale">
+              <MappingFragment StoreEntitySet="sale">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="product_code" ColumnName="product_code" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="saleDate" ColumnName="saleDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
