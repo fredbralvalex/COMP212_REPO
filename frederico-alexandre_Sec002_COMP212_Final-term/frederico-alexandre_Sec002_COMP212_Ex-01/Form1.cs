@@ -103,7 +103,7 @@ namespace frederico_alexandre_Sec002_COMP212_Ex_01
                 try
                 {
                     string name = NameTb.Text;
-                    controller.RemoveProduct(Name);
+                    controller.RemoveProduct(name);
                     OutputTb.Text = controller.PrintProducts();
                     return;
                 }
